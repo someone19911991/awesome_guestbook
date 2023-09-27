@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import VisitorsTable from "./components/VisitorsTable";
+import AddVisitorForm from './components/AddVisitorForm'
+import { Grid, Box} from '@mui/material'
+import {IVisitor} from './interfaces'
+import NavBar from './components/NavBar'
+import useLSVisitors from './hooks/useLSVisitors'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [visitors, setVisitors] = useState<Array<IVisitor>>([])
+    const currentVisitors = useLSVisitors(visitors)
+
+    return (
+        <Box>
+            <NavBar />
+            <Grid container spacing={2} p={2}>
+                <Grid item xs={12} sm={4}>
+                    <AddVisitorForm setVisitors={setVisitors} visitors={currentVisitors} />
+                </Grid>
+                <Grid item xs={12} sm={8}>
+                    <VisitorsTable visitors={currentVisitors} setVisitors={setVisitors}/>
+                </Grid>
+            </Grid>
+        </Box>
+    );
+};
 
 export default App;
